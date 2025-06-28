@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silsilah Keluarga</title>
+  <style>
+    body {
+     font-family: Arial, sans-serif;
+  background-color: #f30d0d;
+  background-image: url('background.jpg'); /* Ganti dengan nama file gambarmu */
+  background-size: cover;              /* Agar gambar memenuhi seluruh layar */
+  background-repeat: no-repeat;        /* Agar tidak diulang */
+  background-position: center;         /* Posisi gambar di tengah */
+  padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .level, .anak-anak {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .anggota-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 10px;
+    }
+    .anggota {
+      text-align: center;
+    }
+    .foto-kotak {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 5px;
+    }
+    .foto-kotak img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+    .toggle-btn {
+      margin-top: 5px;
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+    .play-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .play-button:hover {
+      background-color: #45a049;
+    }
+
+    .play-button svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Audio -->
+  <audio id="musik" loop>
+    <source src="musik.mp3" type="audio/mpeg">
+    Browser Anda tidak mendukung audio.
+  </audio>
+
+  <!-- Tombol Toggle Play/Pause -->
+  <button class="play-button" onclick="toggleMusic()" id="tombolMusik">
+    <span id="ikonMusik">
+      <!-- Ikon Play -->
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="16,8 56,32 16,56" />
+      </svg>
+    </span>
+    <span id="teksMusik">Putar Musik</span>
+  </button>
+
+  <script>
+    const musik = document.getElementById('musik');
+    const ikonMusik = document.getElementById('ikonMusik');
+    const teksMusik = document.getElementById('teksMusik');
+
+    function toggleMusic() {
+      if (musik.paused) {
+        musik.play();
+        // Ganti ikon ke Pause
+        ikonMusik.innerHTML = `
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect x="16" y="8" width="12" height="48" />
+            <rect x="36" y="8" width="12" height="48" />
+          </svg>`;
+        teksMusik.textContent = "Pause Musik";
+      } else {
+        musik.pause();
+        // Ganti ikon ke Play
+        ikonMusik.innerHTML = `
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="16,8 56,32 16,56" />
+          </svg>`;
+        teksMusik.textContent = "Putar Musik";
+      }
+    }
+  </script>
+
+  <h1 style="color: #ffffff;">🌹 H.Teuku Syahruzar & Hj.Novierni</h1>
+  <div class="tree">
+    <div class="level">
+      <div class="anggota-container">
+        <div class="foto-kotak">
+          <img src="image/Papa.JPG" alt="Nenek">
+          <img src="image/Mama.jpg" alt="Kakek">
+        </div>
+        <div class="anggota">
+          <h3>H.Teuku Syahruzar & Hj.Novierni</h3>
+          <p>Umur: <span id="umur-nenek"></span> & <span id="umur-kakek"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="level">
+      <!-- Anak 1 sampai 6 -->
+      <!-- Kontainer anak-anak akan dimuat oleh JavaScript -->
+      <div id="anak-container" class="level"></div>
+    </div>
+  </div>
+
+  <script>
+    const tahunSekarang = new Date().getFullYear();
+
+    const tahunLahir = {
+      "umur-nenek": 1964,
+      "umur-kakek": 1962,
+      "umur-anak1": 1991,
+      "umur-pasangan1": 1988
+    };
+
+    for (const id in tahunLahir) {
+      const umur = tahunSekarang - tahunLahir[id];
+      document.getElementById(id) && (document.getElementById(id).textContent = umur + ' tahun');
+    }
+
+    function toggleKeturunan(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle('hidden');
+    }
+
+    // Tambah data dinamis anak 1-6 dan keturunan
+    const anakData = [
+      {
+        nama: 'Yopi Razaqa Pratama & Annisa Sifarini',
+        id: 'anak1',
+        umur: [1991, 1988],
+        fotos: [
+            "image/Yopi.jpg",
+            "image/abi.jpg",
+          ],
+        keturunan: [
+          { nama: 'Kenzie Elzabran Razaqa', umur: [2021], fotos: ["image/hunaif.jpg"] }
+        ]
+      },
+      {
+        nama: 'Yori Yardha',
+        id: 'anak2',
+        umur: [1998],
+        fotos: [
+            "image/Yori.jpg",
+      ]
+      },
+      {
+        nama: 'Yoki Qamara Septana',
+        id: 'anak3',
+        umur: [1999],
+        fotos: [
+            "image/Yoki.jpg",
+        ]
+      },
+    ];
+
+    const anakContainer = document.getElementById("anak-container");
+
+    anakData.forEach((anak, index) => {
+      const anggotaDiv = document.createElement("div");
+      anggotaDiv.className = "anggota-container";
+      anggotaDiv.innerHTML = `
+        <div class="foto-kotak">
+          ${anak.fotos
+              .map((url) => `<img src="${url}">`)
+              .join("")}
+        </div>
+        <div class="anggota">
+          <h3>${anak.nama}</h3>
+          <p>Umur: ${anak.umur.map(umur => tahunSekarang - umur + ' tahun').join(' & ')}</p>
+        </div>
+        ${anak.keturunan ? `<button class="toggle-btn" onclick="toggleKeturunan('keturunan-${anak.id}')">Tampilkan Keturunan</button>` : ''}
+        <div id="keturunan-${anak.id}" class="anak-anak hidden">
+          ${anak.keturunan ? anak.keturunan.map((c, i) => `
+            <div class="anggota-container">
+              <div class="foto-kotak">
+                ${(c.fotos || [])
+                    .map((url) => `<img src="${url}" alt="${c.nama}">`)
+                    .join("")}
+              </div>
+              <div class="anggota">
+                <h4>${c.nama}</h4>
+                <p>Umur: ${c.umur.map(u => tahunSekarang - u + ' tahun').join(' & ')}</p>
+                ${c.keturunan ? `<button class=\"toggle-btn\" onclick=\"toggleKeturunan('keturunan-${anak.id}-${i+1}')\">Tampilkan Keturunan</button>` : ''}
+                ${c.keturunan ? `<div id=\"keturunan-${anak.id}-${i+1}\" class=\"anak-anak hidden\">${c.keturunan.map(gc => `
+                  <div class=\"anggota-container\">
+                    <div class=\"foto-kotak\">${(gc.fotos || [])
+                              .map(
+                                (url) => `<img src="${url}" alt="${gc.nama}">`
+                              )
+                              .join("")}</div>
+                    <div class=\"anggota\">
+                      <h5>${gc.nama}</h5>
+                      <p>Umur: ${gc.umur.map(u => tahunSekarang - u + ' tahun').join('')}</p>
+                    </div>
+                  </div>`).join('')}</div>` : ''}
+              </div>
+            </div>`).join('') : ''}
+        </div>
+      `;
+      anakContainer.appendChild(anggotaDiv);
+    });
+  </script>
+</body>
+</html>
